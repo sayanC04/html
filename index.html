@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Infrastructure Engineer Roadmap</title>
+<style>
+  :root{
+    --text:#1f2328; --muted:#57606a; --line:#d8dee4; --soft:#f6f8fa; --accent:#326ce5; --bg:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--text);
+    font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  main{max-width:780px; margin:0 auto; padding:48px 20px 96px;}
+  h1{font-size:30px; line-height:1.25; margin:0 0 10px;}
+  h2{font-size:21px; margin:0 0 8px;}
+  p{margin:0 0 12px;}
+  .intro{color:var(--muted); max-width:66ch;}
+  a{color:var(--accent);}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  /* progress */
+  .progress{margin:28px 0 12px;}
+  .progress-line{display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 16px; font-size:15px; margin-bottom:8px;}
+  .progress-line b{font-size:22px;}
+  .bar{height:8px; background:var(--soft); border:1px solid var(--line); border-radius:99px; overflow:hidden;}
+  .bar span{display:block; height:100%; width:0; background:var(--accent); transition:width .3s;}
+  .controls{display:flex; flex-wrap:wrap; align-items:center; gap:10px 18px; margin:14px 0 32px; font-size:15px; color:var(--muted);}
+  .controls input[type=number]{width:64px; font:inherit; padding:4px 6px; border:1px solid var(--line); border-radius:6px; color:var(--text);}
+  .controls button{margin-left:auto; font:inherit; font-size:14px; background:none; border:1px solid var(--line); border-radius:6px; padding:5px 12px; color:var(--muted); cursor:pointer;}
+  .controls button:hover{color:var(--text); border-color:var(--muted);}
+
+  .phase{font-size:14px; color:var(--muted); margin:30px 0 8px; font-weight:600;}
+
+  /* stages */
+  details.stage{border:1px solid var(--line); border-radius:8px; margin:0 0 10px; background:var(--bg);}
+  details.stage[open]{border-color:#b6c0ca;}
+  details.stage > summary{list-style:none; cursor:pointer; padding:14px 16px; display:flex; align-items:baseline; gap:12px;}
+  details.stage > summary::-webkit-details-marker{display:none}
+  .s-num{color:var(--muted); font-variant-numeric:tabular-nums; min-width:1.4em;}
+  .s-title{font-weight:600; flex:1;}
+  .s-meta{color:var(--muted); font-size:14px; white-space:nowrap;}
+  .s-count{font-size:14px; font-variant-numeric:tabular-nums; min-width:3.6em; text-align:right;}
+  .stage.complete .s-count{color:var(--accent); font-weight:600;}
+  .stage-body{padding:0 16px 18px; border-top:1px solid var(--line);}
+  .why{color:#424a53; margin-top:14px;}
+
+  .group{margin-top:16px;}
+  .group-title{font-weight:600;}
+  .group-note{font-size:14px; color:var(--muted);}
+  .group .item{margin-left:4px;}
+  .item{display:flex; gap:10px; padding:7px 0; border-bottom:1px solid #eef1f4;}
+  .item:last-child{border-bottom:none;}
+  .item input{flex:none; width:17px; height:17px; margin-top:4px; accent-color:var(--accent); cursor:pointer;}
+  .item label{cursor:pointer;}
+  .topic{display:block;}
+  .detail{display:block; font-size:14px; color:var(--muted);}
+  .resource{display:block; font-size:13.5px; color:var(--accent);}
+  .item.done .topic{color:var(--muted); text-decoration:line-through;}
+  .checkpoint{margin-top:18px; background:var(--soft); border-left:3px solid var(--accent); padding:10px 14px; font-size:15px;}
+  .checkpoint b{display:block; margin-bottom:2px;}
+
+  /* reference */
+  .reference{margin-top:56px; padding-top:8px; border-top:1px solid var(--line);}
+  .footer-section{margin-top:36px;}
+  .footer-heading{font-size:20px;}
+  .footer-sub{color:var(--muted); font-size:15px; max-width:66ch;}
+  .table-scroll{overflow-x:auto; margin:0 0 14px; border:1px solid var(--line); border-radius:8px;}
+  .ref-table{width:100%; border-collapse:collapse; font-size:14.5px; min-width:480px;}
+  .ref-table th{text-align:left; padding:9px 12px; background:var(--soft); border-bottom:1px solid var(--line);}
+  .ref-table td{text-align:left; padding:8px 12px; border-bottom:1px solid #eef1f4; vertical-align:top; color:#424a53;}
+  .ref-table tr:last-child td{border-bottom:none;}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  .market-card{border:1px solid var(--line); border-radius:8px; padding:14px;}
+  .market-card h4{margin:0 0 6px; font-size:15px;}
+  .market-card p{font-size:14.5px; color:#424a53; margin:0 0 6px;}
+  .step-list, .plain-list{padding-left:22px; color:#424a53; font-size:15px;}
+  .step-list li, .plain-list li{margin-bottom:6px;}
+  .plain-list .detail{display:inline;}
+  footer{margin-top:56px; color:var(--muted); font-size:14px;}
+
+  @media (max-width:640px){
+    main{padding-top:32px;}
+    h1{font-size:25px;}
+    .grid-3{grid-template-columns:1fr;}
+    details.stage > summary{flex-wrap:wrap;}
+    .s-meta{order:3; width:100%; padding-left:2.1em;}
+  }
+  @media (prefers-reduced-motion:reduce){ .bar span{transition:none;} }
+</style>
+</head>
+<body>
+<main>
+  <h1>The Hybrid AI-Infrastructure Engineer Roadmap</h1>
+  <p class="intro">From DevOps, Cloud or SRE at entry level, to Platform Engineer, to AI Infrastructure. Phase A (Stages 1–7) makes you employable. Phase B (Stages 8–12) builds platform and GPU/inference depth, ideally alongside a job. Take each stage's placement test first, and don't move on until you pass its checkpoint.</p>
+
+  <div class="progress">
+    <div class="progress-line">
+      <span><b id="pct">0%</b> complete</span>
+      <span><span id="done">0</span> of <span id="total">0</span> tasks, <span id="hDone">0</span> of <span id="hTotal">0</span> hours</span>
+    </div>
+    <div class="bar"><span id="barFill"></span></div>
+  </div>
+
+  <div class="controls">
+    <label for="hrs">Hours per week</label>
+    <input type="number" id="hrs" min="4" max="60" value="18">
+    <span id="eta"></span>
+    <button type="button" id="reset">Reset progress</button>
+  </div>
+
+  <div id="stages"></div>
+
+  <div class="reference">
+<section class="footer-section">
+      <h2 class="footer-heading">Two phases, three paces</h2>
+      <p class="footer-sub">Stage hours already include the continuous tracks (coding practice, writing, AI-assisted work) and a 15% buffer for deload weeks. These totals assume no prior knowledge; placement tests shorten them.</p>
+      <div class="table-scroll"><table class="ref-table">
+        <thead><tr><th>Phase</th><th>Stages</th><th>Hours</th><th>Goal</th></tr></thead>
+        <tbody>
+          <tr><td>A: Foundations to employable</td><td>1–7</td><td>1,140</td><td>Junior DevOps, Cloud, SRE or Platform role</td></tr>
+          <tr><td>B: Specialization</td><td>8–12</td><td>715</td><td>Platform and AI infrastructure depth, ideally alongside a job</td></tr>
+          <tr><td><b>Total</b></td><td>12</td><td><b>1,855</b></td><td></td></tr>
+        </tbody>
+      </table></div>
+      <div class="table-scroll"><table class="ref-table">
+        <thead><tr><th>Pace</th><th>Duration</th><th>When to use it</th></tr></thead>
+        <tbody>
+          <tr><td>12 hrs/week</td><td>about 36 months</td><td>Full-time unrelated job or heavy college load</td></tr>
+          <tr><td>18 hrs/week</td><td>about 24 months</td><td>Default</td></tr>
+          <tr><td>25 hrs/week</td><td>about 17 months</td><td>Studying as your main activity</td></tr>
+        </tbody>
+      </table></div>
+      <p class="footer-sub">Deload every 8 weeks: only review, writing and one break-fix drill. During exams or illness, switch to a minimum-viable week (6 hours: one break-fix drill, one coding problem, one hour of docs) instead of stopping.</p>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Rules for every stage</h2>
+      <div class="grid-3">
+        <div class="market-card">
+          <h4>Placement test</h4>
+          <p>Take it cold before starting. Clean pass: do only the project and break-fix quota. Partial: study only what you failed. Fail: full stage.</p>
+        </div>
+        <div class="market-card">
+          <h4>Checkpoint gate</h4>
+          <p>Don't advance until you pass the checkpoint without notes. Record yourself explaining it and watch it back the next day.</p>
+        </div>
+        <div class="market-card">
+          <h4>Write it down</h4>
+          <p>Every project gets a README, an architecture diagram, measured numbers, a failure log and a "what I'd change" section.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Skill tiers</h2>
+      <div class="table-scroll"><table class="ref-table">
+        <thead><tr><th>Tier</th><th>Skills</th></tr></thead>
+        <tbody>
+          <tr><td>Core</td><td>Linux, Bash, Git, networking tools, Python, PostgreSQL (incl. operations), Docker, GitHub Actions, Trivy, AWS, Terraform, Kubernetes, Helm, Gateway API, Prometheus/Grafana/Alertmanager, OpenTelemetry, SLOs and incident response, Argo CD, cert-manager, vLLM, GPU Operator + DCGM, KEDA</td></tr>
+          <tr><td>Important</td><td>Karpenter, Argo Rollouts, Kyverno, External Secrets Operator, cosign + Syft, Go + Kubebuilder, KServe, model gateway, pgvector</td></tr>
+          <tr><td>Specialized</td><td>MLflow (MLOps roles), Crossplane, Vault, Ray/KubeRay, llm-d, service mesh, Slurm, Kafka, Kueue/DRA depth</td></tr>
+          <tr><td>Optional</td><td>Backstage, Flux, OpenTofu, Jenkins (reading only), Azure/GCP depth, LangGraph, Langfuse, dedicated vector databases</td></tr>
+          <tr><td>Skip</td><td>ingress-nginx (retired), Kubeflow Pipelines, CrewAI, MongoDB for this path, hand-rolled auth, identical pipelines in three CI systems</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Specialized and optional tracks</h2>
+      <p class="footer-sub">Only when a target role needs them. Not counted in the progress above.</p>
+      <ul class="plain-list" id="specList"></ul>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Cloud translation guide</h2>
+      <p class="footer-sub">About 80% of what you learn transfers. If your employer uses Azure or GCP, budget 40–60 hours to rebuild your Stage 5 environment there.</p>
+      <div class="table-scroll"><table class="ref-table">
+        <thead><tr><th>Concept</th><th>AWS (learn first)</th><th>Azure</th><th>GCP</th></tr></thead>
+        <tbody>
+          <tr><td>Identity & access</td><td>IAM</td><td>Entra ID + Azure RBAC</td><td>Cloud IAM</td></tr>
+          <tr><td>Private network</td><td>VPC</td><td>VNet</td><td>VPC</td></tr>
+          <tr><td>VMs</td><td>EC2</td><td>Virtual Machines</td><td>Compute Engine</td></tr>
+          <tr><td>Object storage</td><td>S3</td><td>Blob Storage</td><td>Cloud Storage</td></tr>
+          <tr><td>Managed Postgres</td><td>RDS</td><td>Azure Database for PostgreSQL</td><td>Cloud SQL</td></tr>
+          <tr><td>L7 load balancer</td><td>ALB</td><td>Application Gateway</td><td>Cloud Load Balancing</td></tr>
+          <tr><td>DNS</td><td>Route 53</td><td>Azure DNS</td><td>Cloud DNS</td></tr>
+          <tr><td>Monitoring</td><td>CloudWatch</td><td>Azure Monitor</td><td>Cloud Monitoring</td></tr>
+          <tr><td>Container registry</td><td>ECR</td><td>ACR</td><td>Artifact Registry</td></tr>
+          <tr><td>Simple containers</td><td>ECS</td><td>Container Apps</td><td>Cloud Run</td></tr>
+          <tr><td>Managed Kubernetes</td><td>EKS</td><td>AKS</td><td>GKE</td></tr>
+          <tr><td>Pod-to-cloud identity</td><td>EKS Pod Identity</td><td>Workload Identity</td><td>Workload Identity</td></tr>
+          <tr><td>Secrets</td><td>Secrets Manager</td><td>Key Vault</td><td>Secret Manager</td></tr>
+          <tr><td>CI keyless auth</td><td>OIDC federation</td><td>Federated credentials</td><td>Workload Identity Federation</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">If things go wrong</h2>
+      <div class="table-scroll"><table class="ref-table">
+        <thead><tr><th>If this happens</th><th>Do this</th></tr></thead>
+        <tbody>
+          <tr><td>Fail the CKA</td><td>Log which domains cost you points, spend 3 weeks on only those, retake. Registration has typically included one free retake; confirm current terms.</td></tr>
+          <tr><td>Stuck on a stage for twice its planned time</td><td>Stop. Name the blocking concept, get help from a community or mentor, and learn the gap by building the project.</td></tr>
+          <tr><td>Low callbacks (under about 5% after 50+ targeted applications)</td><td>A résumé or targeting problem. Rewrite project bullets with measured numbers; aim more at GCCs and product companies.</td></tr>
+          <tr><td>Callbacks, but failing technical screens</td><td>Write down every question you couldn't answer. Those are your next study topics.</td></tr>
+          <tr><td>Final rounds, but no offers</td><td>Usually communication or system design. More mock interviews; practice explaining your flagships out loud.</td></tr>
+          <tr><td>No full-time job by month 18</td><td>Take an adjacent entry role (cloud support, L1 SRE/NOC, Linux sysadmin, service-company DevOps trainee), keep doing Phase B, plan an internal move in 12–18 months.</td></tr>
+          <tr><td>Burnout</td><td>Minimum-viable weeks for 2–4 weeks. Continuity matters more than pace.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Quarterly market review</h2>
+      <p class="footer-sub">Every 3 months, about 2 hours. This keeps the roadmap tied to your real local market instead of anyone's opinion.</p>
+      <ol class="step-list">
+        <li>Collect 25 postings for your exact target title and locations (Kolkata, Bengaluru, Hyderabad, Pune, remote). Skip helpdesk roles labeled as DevOps.</li>
+        <li>Record each one: role, company type (product, GCC, service, startup), location, skills listed, required vs nice-to-have.</li>
+        <li>Count only required mentions.</li>
+        <li>Adjust (a heuristic, not a law): anything required in roughly a third or more of postings that isn't Core or Important gets promoted. Anything Important that shows up in almost none across two consecutive reviews gets demoted.</li>
+      </ol>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Roles you can target</h2>
+      <div class="grid-3">
+        <div class="market-card">
+          <h4>Apply confidently</h4>
+          <p>DevOps Engineer, Cloud Engineer (AWS), junior Site Reliability Engineer, junior Platform Engineer, Kubernetes / Cloud-Native Engineer.</p>
+          <p>Internships from Stage 5, junior roles from Stage 6 (with CKA), broad applications from Stage 7.</p>
+        </div>
+        <div class="market-card">
+          <h4>Stretch roles</h4>
+          <p>MLOps Engineer, ML Platform Engineer, junior AI Infrastructure Engineer, LLMOps / Inference Platform Engineer.</p>
+          <p>Best odds at AI-native startups, or through an internal move after a year in a DevOps or SRE role.</p>
+        </div>
+        <div class="market-card">
+          <h4>Not yet</h4>
+          <p>Senior or Staff Platform/SRE, GPU cluster / HPC engineer at scale, inference optimization engineer, Solutions Architect.</p>
+          <p>These need years of production ownership or different skills (CUDA, InfiniBand, Slurm).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer-section">
+      <h2 class="footer-heading">Job-search keywords by market</h2>
+      <div class="grid-3">
+        <div class="market-card">
+          <h4>India</h4>
+          <p>"DevOps Engineer," "Cloud Engineer," "SRE" at product companies and GCCs. GCCs usually pay more than service companies for the same title.</p>
+          <p>Lead your résumé with Kubernetes, Terraform and AWS. Filter out helpdesk roles labeled as DevOps.</p>
+        </div>
+        <div class="market-card">
+          <h4>US</h4>
+          <p>"DevOps Engineer," "Cloud Engineer" as primary titles.</p>
+          <p>"Platform Engineering," "ML Infrastructure," "AI Infrastructure" as résumé keywords.</p>
+        </div>
+        <div class="market-card">
+          <h4>UK</h4>
+          <p>Same title strategy. Platform Engineering and DevSecOps are strong specializations.</p>
+          <p>Azure matters more in Microsoft-heavy enterprises; use the translation guide.</p>
+        </div>
+      </div>
+    </section>
+
+    
+  </div>
+
+  <footer>Progress saves automatically in this browser.</footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  const CATS = {
+    "Foundations":             "var(--c-foundations)",
+    "Cloud & IaC":             "var(--c-cloud)",
+    "Containers & Kubernetes": "var(--c-containers)",
+    "SRE & Observability":     "var(--c-mlops)",
+    "Platform Engineering":    "var(--c-platform)",
+    "AI Infrastructure":       "var(--c-ai)",
+    "Career":                  "var(--c-career)"
+  };
+
+  /* Shared leaf items reused in most stages */
+  const AI_PRACTICE = (what)=>({topic:`AI-assisted practice`, detail:`Generate ${what} with a coding agent. Review it against the checklist (correctness, least privilege, idempotency, hard-coded secrets, failure handling), verify with tools rather than trust, and add every defect to your AI defect log. Never paste secrets or private data; AI tools never get write credentials to real infrastructure.`});
+  const BREAK_FIX = {topic:`Break-fix quota`, detail:`Deliberately induce at least 5 failures in this stage's project. Log symptom, root cause and fix for each. These logs become your interview stories.`};
+  const PLACEMENT = (test)=>({topic:`Placement test (take it cold first)`, detail:`${test}<br><br><b>Clean pass:</b> fast-track, do only the project and break-fix quota (about 30% of hours). <b>Partial pass:</b> study only the topics you failed (about 60%). <b>Fail:</b> do the full stage.`});
+
+  const stages = [
+    { num:1, title:`Linux & Git`, weeks:`Weeks 1–8`, category:`Foundations`, hoursLabel:`140`, hoursMid:140,
+      why:`Every container, node and incident eventually becomes a Linux problem. Containers are namespaces plus cgroups, so this stage is what makes Docker and Kubernetes make sense later instead of feeling like magic.`,
+      checkpoint:`On an unfamiliar VM, fix "service down," "disk full," "high load," and "port already in use" without searching for commands, and explain each root cause out loud.`,
+      items:[
+        PLACEMENT(`On a fresh VM, have someone inject four faults (service down, disk full, high load, port conflict). Diagnose all four, then write a Bash script with proper error handling.`),
+        {topic:`Processes, users & permissions`, resource:`How Linux Works — Brian Ward (book) · Linux Upskill Challenge (free)`, detail:`Read the chapter, then reproduce every concept on your own VM.`, children:[
+          {topic:`Processes & signals`, detail:`ps, top, kill, signals (TERM vs KILL), foreground/background, zombies.`},
+          {topic:`Users, groups & permissions`, detail:`chmod, chown, sudo, setuid, the owner/group/other model.`},
+          {topic:`Package management`, detail:`apt, repositories, pinning versions, what a package actually installs.`}
+        ]},
+        {topic:`systemd & logs`, detail:`How services really run on modern Linux.`, children:[
+          {topic:`Units & services`, detail:`Write your own unit file; start, stop, enable, restart policies.`},
+          {topic:`systemd timers`, detail:`The modern replacement for cron jobs.`},
+          {topic:`journald`, detail:`journalctl filtering by unit, time and priority.`}
+        ]},
+        {topic:`Storage`, detail:`Disk problems are among the most common real incidents.`, children:[
+          {topic:`Mounts & fstab`, detail:`Mounting volumes and surviving a reboot.`},
+          {topic:`Disk-full debugging`, detail:`df, du, inodes, and deleted-but-open files (lsof +L1).`},
+          {topic:`LVM basics`, detail:`Extend a volume without downtime.`}
+        ]},
+        {topic:`Namespaces & cgroups`, resource:`iximiuz Labs — Linux and container internals`, detail:`This is literally what a container is.`, children:[
+          {topic:`Namespaces`, detail:`PID, network, mount, UTS, user namespaces.`},
+          {topic:`cgroups v2`, detail:`CPU and memory limits, and what OOM kills look like.`},
+          {topic:`Build a "container" by hand`, detail:`Use unshare and cgroups to isolate a process without Docker.`}
+        ]},
+        {topic:`Performance & troubleshooting`, detail:`A method beats memorized commands.`, children:[
+          {topic:`USE method`, detail:`Utilization, saturation, errors for CPU, memory, disk, network.`},
+          {topic:`vmstat, iostat, top`, detail:`Read system load and I/O wait correctly.`},
+          {topic:`ss, lsof, strace`, detail:`Sockets, open files, and what a process is actually doing.`},
+          {topic:`Your troubleshooting checklist`, detail:`Write your own step-by-step checklist and refine it after every incident.`}
+        ]},
+        {topic:`Bash & SSH`, resource:`Shell Scripting in One Shot | 3 Live Projects for DevOps — TrainWithShubham`, detail:`Scripts that fail safely.`, children:[
+          {topic:`Robust scripts`, detail:`set -euo pipefail, trap, exit codes, shellcheck.`},
+          {topic:`SSH properly`, detail:`Keys, ~/.ssh/config, jump hosts, why agent forwarding is risky.`},
+          {topic:`Three real scripts`, detail:`Backup, health-check with alerting, log rotation.`}
+        ]},
+        {topic:`Git in depth`, detail:`The workflows that break under pressure.`, children:[
+          {topic:`Branching & rebase vs merge`, detail:`When to use each and how history differs.`},
+          {topic:`bisect & reflog`, detail:`Find the commit that broke things; recover "lost" work.`},
+          {topic:`Resolve a real conflict`, detail:`Create one on purpose and fix it by hand.`}
+        ]},
+        {topic:`Project: single-server operations`, detail:`Your first system you fully own.`, children:[
+          {topic:`Service under systemd behind nginx`, detail:`With a Let's Encrypt TLS certificate.`},
+          {topic:`Backups & log rotation`, detail:`Scheduled, tested by actually restoring.`},
+          {topic:`Runbook`, detail:`How to start, stop, debug and restore it.`},
+          {topic:`10 logged break-fix scenarios`, detail:`Someone else (or a script) breaks it; you fix and log each one.`}
+        ]},
+        AI_PRACTICE(`one Bash script`)
+      ]
+    },
+    { num:2, title:`Networking`, weeks:`Weeks 9–14`, category:`Foundations`, hoursLabel:`105`, hoursMid:105,
+      why:`VPCs, Kubernetes Services, CNIs, Gateway API and most outages are networking problems. The "what happens when you type a URL" interview question lives here too.`,
+      checkpoint:`Subnet a /16 by hand, trace a request from browser to container hop by hop, and find the cause of a failed TLS handshake from a packet capture.`,
+      items:[
+        PLACEMENT(`Split a /16 into specified subnets by hand, and find the cause of a failed TLS connection from a packet capture.`),
+        {topic:`Addressing & routing`, resource:`Computer Networking & System Design for DevOps in OneShot — TrainWithShubham (intro only)`, detail:`Use the OSI model as a debugging map, not something to recite.`, children:[
+          {topic:`CIDR & subnetting by hand`, detail:`You need this before designing any VPC.`},
+          {topic:`Routing tables`, detail:`ip route, default gateways, longest-prefix match.`},
+          {topic:`NAT`, detail:`SNAT vs DNAT, and why private subnets need a NAT gateway.`}
+        ]},
+        {topic:`DNS in depth`, detail:`"It's always DNS" exists for a reason.`, children:[
+          {topic:`Resolution chain`, detail:`Stub resolver, recursive resolver, authoritative servers.`},
+          {topic:`Records & TTLs`, detail:`A, AAAA, CNAME, MX, TXT, and why TTL matters during migrations.`},
+          {topic:`Debug with dig`, detail:`Trace a lookup with dig +trace.`}
+        ]},
+        {topic:`TCP & TLS`, detail:`Where most connection errors live.`, children:[
+          {topic:`TCP handshake & states`, detail:`SYN, ESTABLISHED, TIME_WAIT, resets.`},
+          {topic:`TLS handshake & certificate chains`, detail:`What a certificate proves and what breaks when a chain is incomplete.`},
+          {topic:`openssl s_client`, detail:`Inspect a live server's certificate and handshake.`}
+        ]},
+        {topic:`HTTP & load balancing`, detail:`What your proxies and load balancers do for you.`, children:[
+          {topic:`HTTP/1.1 vs HTTP/2`, detail:`Connections, multiplexing, keep-alive.`},
+          {topic:`L4 vs L7 load balancing`, detail:`NLB vs ALB thinking, applied to any cloud.`},
+          {topic:`Reverse proxies`, detail:`nginx or Envoy: routing, TLS termination, headers.`}
+        ]},
+        {topic:`Firewalls`, detail:`Packets get dropped somewhere; learn where.`, children:[
+          {topic:`iptables / nftables basics`, detail:`Chains, rules, and how Kubernetes uses them.`},
+          {topic:`Stateful vs stateless filtering`, detail:`Security groups vs network ACLs, conceptually.`}
+        ]},
+        {topic:`Packet analysis`, detail:`The final word in any networking argument.`, children:[
+          {topic:`tcpdump`, detail:`Capture and filter traffic on a live interface.`},
+          {topic:`Wireshark`, detail:`Read a capture visually, follow a TCP stream.`}
+        ]},
+        {topic:`Project: network namespace lab`, detail:`Build a network from nothing.`, children:[
+          {topic:`Two networks plus a router`, detail:`Linux network namespaces connected by a router namespace with NAT.`},
+          {topic:`Reverse proxy in front of a service`, detail:`Route traffic through it across your networks.`},
+          {topic:`Debug three injected faults`, detail:`Using only packet captures.`}
+        ]},
+        BREAK_FIX,
+        AI_PRACTICE(`a network setup script`)
+      ]
+    },
+    { num:3, title:`Python, PostgreSQL & Distributed-Systems Basics`, weeks:`Weeks 15–23`, category:`Foundations`, hoursLabel:`175`, hoursMid:175,
+      why:`Infrastructure work is increasingly software work, and nearly every platform tool runs on PostgreSQL. Understanding retries, queues and failover is what turns system design from drawing boxes into engineering.`,
+      checkpoint:`Explain why retries without backoff cause outages, restore Postgres to a specific point in time, and fail over to a replica, all without notes.`,
+      items:[
+        PLACEMENT(`Write a tested Python CLI that calls a real API, and restore a Postgres database to a specific point in time.`),
+        {topic:`Start the continuous tracks`, detail:`These run from now until the end, inside your weekly hours.`, children:[
+          {topic:`Interview coding (2–3 hrs/week)`, detail:`Python and Bash scripting problems plus easy-to-medium algorithms.`},
+          {topic:`Writing`, detail:`A runbook or design note for every project from now on.`}
+        ]},
+        {topic:`Python properly`, resource:`Python Language Full Course (2026) — Shradha Khapra · Give Me 4 Hours, I Will Make You PRO in Python for DevOps — TrainWithShubham`, detail:`After every 2 videos, close them and rebuild from memory.`, children:[
+          {topic:`Core language & type hints`, detail:`Data structures, functions, classes, typing.`},
+          {topic:`Packaging & virtual environments`, detail:`venv, pyproject.toml, pinned dependencies.`},
+          {topic:`Testing with pytest`, detail:`Fixtures, mocking external calls.`},
+          {topic:`CLIs`, detail:`argparse or typer, with helpful errors and exit codes.`},
+          {topic:`HTTP clients & boto3`, detail:`Timeouts on every call; talk to AWS from code.`}
+        ]},
+        {topic:`PostgreSQL, including operations`, resource:`Official PostgreSQL documentation`, detail:`Replaces MongoDB: most platform tools run on Postgres, and pgvector reuses it later.`, children:[
+          {topic:`Schema design & indexes`, detail:`Use EXPLAIN to see why a query is slow.`},
+          {topic:`Transactions & isolation`, detail:`What can go wrong with concurrent writes.`},
+          {topic:`Migrations`, detail:`Versioned schema changes with Alembic or similar.`},
+          {topic:`Backups & point-in-time recovery`, detail:`pg_dump, WAL archiving, a real restore.`},
+          {topic:`Streaming replication & failover`, detail:`Promote a replica and repoint the app.`},
+          {topic:`Connection pooling`, detail:`Why PgBouncer exists.`}
+        ]},
+        {topic:`Distributed-systems basics`, resource:`Designing Data-Intensive Applications — Martin Kleppmann (selected chapters)`, detail:`The concepts behind every system design interview.`, children:[
+          {topic:`Queues & workers`, detail:`Decoupling, at-least-once delivery.`},
+          {topic:`Retries with backoff & jitter`, detail:`And how naive retries cause outages.`},
+          {topic:`Idempotency`, detail:`Making it safe to process the same message twice.`},
+          {topic:`Timeouts & backpressure`, detail:`Failing fast instead of piling up.`}
+        ]},
+        {topic:`FastAPI service`, resource:`FastAPI – A Python Framework | Full Course — Sarthaksavvy`, detail:`Build it for your reference app, not the tutorial's resource.`},
+        {topic:`Project: the reference app`, detail:`You'll carry this app through every remaining stage.`, children:[
+          {topic:`API + Postgres (primary & replica) + queue worker`, detail:`A small but realistic multi-component system.`},
+          {topic:`Health, readiness, metrics, JSON logs`, detail:`/healthz, /readyz, /metrics, structured logging.`},
+          {topic:`Tests`, detail:`Unit tests plus one integration test against a real database.`},
+          {topic:`Ops CLI with boto3`, detail:`For example, an AWS resource auditor.`}
+        ]},
+        BREAK_FIX,
+        AI_PRACTICE(`one Python module`)
+      ]
+    },
+    { num:4, title:`Containers & CI/CD with Supply-Chain Security`, weeks:`Weeks 24–30`, category:`Containers & Kubernetes`, hoursLabel:`125`, hoursMid:125,
+      why:`This is the daily core of DevOps work. Signed images and keyless CI credentials are now baseline expectations, and security checks belong inside the pipeline, not after it.`,
+      checkpoint:`Explain every layer in your image, and prove your pipeline holds zero long-lived cloud credentials.`,
+      items:[
+        PLACEMENT(`Build a pipeline that produces a scanned, signed image pushed to a registry with no stored cloud keys.`),
+        {topic:`Container internals & secure Dockerfiles`, resource:`Docker In One Shot — TrainWithShubham`, detail:`Containerize your reference app.`, children:[
+          {topic:`Containers = namespaces + cgroups`, detail:`Connect Docker back to what you built by hand in Stage 1.`},
+          {topic:`Layers & multi-stage builds`, detail:`Layer caching and small final images.`},
+          {topic:`Non-root & minimal base images`, detail:`Distroless or slim bases; no shell where it isn't needed.`},
+          {topic:`Compose for local development`, detail:`App, Postgres and worker running together.`}
+        ]},
+        {topic:`GitHub Actions in depth`, resource:`GitHub Actions Tutorial — Piyush Garg`, detail:`One CI system, learned deeply.`, children:[
+          {topic:`Caching & matrices`, detail:`Fast, parallel builds.`},
+          {topic:`Reusable workflows`, detail:`Write once, use across repos.`},
+          {topic:`Environments & approvals`, detail:`Gate production deploys.`},
+          {topic:`OIDC federation to AWS`, detail:`Short-lived credentials, no stored access keys.`}
+        ]},
+        {topic:`Supply-chain security`, resource:`Docker With AI & Security — TrainWithShubham`, detail:`Scan, describe and sign everything you ship.`, children:[
+          {topic:`Trivy: fail on criticals`, detail:`And fix at least one real finding.`},
+          {topic:`SBOM with Syft`, detail:`Know exactly what is inside your image.`},
+          {topic:`Sign images with cosign`, detail:`So Kubernetes can later refuse unsigned images.`}
+        ]},
+        {topic:`Jenkins: reading only (optional)`, resource:`Jenkins In One Shot — TrainWithShubham`, detail:`Read one Jenkinsfile so you can maintain legacy pipelines. Don't rebuild the same pipeline in three CI systems.`},
+        {topic:`Project: secure delivery pipeline`, detail:`For the reference app.`, children:[
+          {topic:`Test → build → scan`, detail:`Pipeline fails on critical vulnerabilities.`},
+          {topic:`SBOM → sign → push to ECR`, detail:`Via OIDC, no stored keys.`}
+        ]},
+        BREAK_FIX,
+        AI_PRACTICE(`one workflow file`)
+      ]
+    },
+    { num:5, title:`AWS & Terraform`, weeks:`Weeks 31–41`, category:`Cloud & IaC`, hoursLabel:`185`, hoursMid:185,
+      why:`Kubernetes plus Terraform plus one major cloud is the core combination Indian employers screen for. Interviews probe team-scale Terraform (state locking, drift) and IAM reasoning, not just syntax.`,
+      checkpoint:`Explain what happens when two engineers run terraform apply at the same time, and explain any IAM policy you wrote line by line.`,
+      items:[
+        PLACEMENT(`Terraform a VPC plus RDS from scratch with remote state and locking, and explain every IAM permission you granted.`),
+        {topic:`AWS core`, resource:`AWS: Zero To Hero course · AWS S3, IAM & CLI Explained in 1 Hour — TrainWithShubham`, detail:`Build each piece by hand once, then in Terraform.`, children:[
+          {topic:`IAM in depth`, detail:`Policies, roles, trust relationships, permission boundaries. Start over-permissioned, then tighten.`},
+          {topic:`VPC design`, detail:`Public/private subnets across AZs, route tables, NAT.`},
+          {topic:`EC2 & S3`, detail:`Instances, launch templates, bucket policies.`},
+          {topic:`RDS with multi-AZ failover`, detail:`Trigger a failover and watch the app recover.`},
+          {topic:`ALB/NLB & Route 53`, detail:`Load balancing and DNS on AWS.`},
+          {topic:`CloudWatch`, detail:`Metrics, logs and alarms.`},
+          {topic:`ECS`, detail:`Run the reference app as an ECS service.`},
+          {topic:`Multi-account awareness`, detail:`Why organizations separate dev and prod accounts.`}
+        ]},
+        {topic:`Terraform for teams`, resource:`Terraform In One Shot — TrainWithShubham · Terraform: Up & Running — Yevgeniy Brikman (book)`, detail:`How Terraform works when several people share it.`, children:[
+          {topic:`Remote state with locking`, detail:`S3 backend with state locking.`},
+          {topic:`Modules`, detail:`Reusable, versioned building blocks.`},
+          {topic:`Environments`, detail:`Separate dev and prod safely.`},
+          {topic:`Plan on PR, apply on merge`, detail:`Plans posted to pull requests for review.`},
+          {topic:`Import & drift`, detail:`Bring existing resources under code; detect and fix drift.`}
+        ]},
+        {topic:`Cost basics`, resource:`AWS Billing, Monitoring & VPC in One Shot — TrainWithShubham`, detail:`Do this before spending real money.`, children:[
+          {topic:`Budget alert first`, detail:`Set it up on day one.`},
+          {topic:`Tagging`, detail:`By project and environment, consistently.`},
+          {topic:`Cost Explorer`, detail:`Find where the money goes.`}
+        ]},
+        {topic:`Ansible (light)`, resource:`Ansible In One Shot | Production Ready DevOps — TrainWithShubham`, detail:`For configuring VMs and GPU hosts. Not the center of your IaC.`},
+        {topic:`GCP & Azure awareness`, detail:`Spend one day mapping each AWS service you learned to its Azure and GCP equivalents. See the cloud translation guide below.`},
+        {topic:`Optional: Terraform Associate certification`, detail:`Useful signal once you have real hands-on time behind it.`},
+        {topic:`Project: reference app environment in Terraform`, detail:`Everything in code, reviewed in PRs.`, children:[
+          {topic:`VPC, ALB, ECS, RDS, secrets, alarms`, detail:`Separate dev and prod.`},
+          {topic:`Plans posted to PRs`, detail:`Nothing changes without a reviewed plan.`},
+          {topic:`Demonstrated drift recovery`, detail:`Change something in the console, then detect and fix it.`}
+        ]},
+        {topic:`External checkpoint: mock interview`, detail:`Linux, networking, AWS and Terraform, with a working engineer or a peer from a DevOps community.`},
+        {topic:`Apply for internships & trainee programs`, detail:`Start now (around month 9–10). Filter out helpdesk roles labeled as DevOps.`},
+        BREAK_FIX,
+        AI_PRACTICE(`one Terraform module (verify with terraform plan and tflint)`)
+      ]
+    },
+    { num:6, title:`Kubernetes in Depth`, weeks:`Weeks 42–54`, category:`Containers & Kubernetes`, hoursLabel:`250`, hoursMid:250,
+      why:`Kubernetes is table stakes. Interviewers screen out candidates who describe namespaces only conceptually and can't explain RBAC or network policy design, so depth here is what gets you hired.`,
+      checkpoint:`Pass the CKA, and design RBAC plus NetworkPolicy for a multi-team cluster, defending every rule.`,
+      items:[
+        PLACEMENT(`Take a full CKA practice exam under exam timing (CKA registration has typically included simulator sessions; check current terms).`),
+        {topic:`Architecture`, resource:`Kubernetes the Hard Way — Kelsey Hightower`, detail:`Build a cluster by hand once so nothing is magic.`, children:[
+          {topic:`Control plane components`, detail:`API server, etcd, scheduler, controller manager, kubelet.`},
+          {topic:`The reconcile loop`, detail:`Desired vs actual state: the idea behind all of Kubernetes, including operators later.`}
+        ]},
+        {topic:`Workloads & scheduling`, resource:`Kubernetes In One Shot | 3 Live DevOps Projects — TrainWithShubham`, detail:`Use your reference app, not demo apps.`, children:[
+          {topic:`Deployments & probes`, detail:`Liveness, readiness and startup probes done correctly.`},
+          {topic:`Requests, limits & QoS`, detail:`And what happens under memory pressure.`},
+          {topic:`Affinity, taints & topology spread`, detail:`Control where pods land.`},
+          {topic:`HPA`, detail:`Scale pods on metrics.`},
+          {topic:`Karpenter on EKS`, detail:`Node autoscaling; learn managed node groups before EKS Auto Mode.`}
+        ]},
+        {topic:`Storage`, detail:`Stateful workloads on Kubernetes.`, children:[
+          {topic:`PV, PVC & StorageClass`, detail:`Dynamic provisioning.`},
+          {topic:`StatefulSets`, detail:`Run Postgres in-cluster once to understand the trade-offs.`}
+        ]},
+        {topic:`Networking`, detail:`Use kind with Cilium locally (CNI, NetworkPolicy and Gateway API in one tool), then EKS.`, children:[
+          {topic:`CNI`, detail:`How pods get IPs and talk to each other.`},
+          {topic:`Services & CoreDNS`, detail:`ClusterIP, NodePort, LoadBalancer, service discovery.`},
+          {topic:`NetworkPolicy`, detail:`Default-deny, then allow only what's needed.`},
+          {topic:`Gateway API`, detail:`The replacement for Ingress. ingress-nginx was retired in March 2026, so don't start new work on it.`}
+        ]},
+        {topic:`Access control`, detail:`Who can do what in the cluster.`, children:[
+          {topic:`RBAC`, detail:`Roles, ClusterRoles, bindings for a multi-team setup.`},
+          {topic:`ServiceAccounts`, detail:`Identity for workloads.`}
+        ]},
+        {topic:`Packaging`, detail:`How every real install works.`, children:[
+          {topic:`Helm`, detail:`Write your own chart for the reference app.`},
+          {topic:`Kustomize`, detail:`Overlays for dev and prod.`}
+        ]},
+        {topic:`Operations`, detail:`Day-2 skills.`, children:[
+          {topic:`Cluster upgrades`, detail:`Upgrade a cluster version without breaking workloads.`},
+          {topic:`Systematic troubleshooting`, detail:`CrashLoopBackOff, Pending, OOMKilled, DNS failures, blocked traffic.`}
+        ]},
+        {topic:`CKA exam`, detail:`Use the exam as a forcing function. If you fail, see the failure branches below.`},
+        {topic:`Project: reference app on EKS`, detail:`Production-style deployment.`, children:[
+          {topic:`Your own Helm chart`, detail:`App, worker and database.`},
+          {topic:`Gateway API routing & NetworkPolicy`, detail:`Isolated by default.`},
+          {topic:`HPA & Karpenter`, detail:`Load-test and watch it scale.`},
+          {topic:`10 logged failures`, detail:`Each with root cause and fix.`}
+        ]},
+        {topic:`Start open-source contributions`, detail:`Docs fixes, Helm chart fixes, good-first-issues. Maintainers reviewing your code is an external checkpoint.`},
+        {topic:`Apply for junior roles if CKA passed`, detail:`Around month 12–13.`},
+        AI_PRACTICE(`one Helm chart or manifest set (verify with kubectl --dry-run=server)`)
+      ]
+    },
+    { num:7, title:`Observability & SRE`, weeks:`Weeks 55–63`, category:`SRE & Observability`, hoursLabel:`160`, hoursMid:160,
+      why:`Observability and incident response are the most commonly missing skills in candidates. This is the difference between "deploys things" and "runs things," and your postmortems become your best interview stories.`,
+      checkpoint:`From a vague "the site is slow" report, get from metrics to traces to logs to root cause in under 15 minutes.`,
+      items:[
+        PLACEMENT(`Define an SLO with a burn-rate alert from scratch, and find the cause of a slow request using traces.`),
+        {topic:`Metrics & alerting`, resource:`Prometheus: Up & Running (book)`, detail:`Alerts that wake someone up must be worth it.`, children:[
+          {topic:`PromQL`, detail:`Rates, histograms, quantiles, aggregation.`},
+          {topic:`Alert design`, detail:`Alert on symptoms, not causes; every alert must be actionable.`},
+          {topic:`Alertmanager`, detail:`Routing, grouping, silencing.`}
+        ]},
+        {topic:`Logs & traces`, detail:`One logs backend and one traces backend is enough.`, children:[
+          {topic:`OpenTelemetry instrumentation`, detail:`Instrument the reference app and worker.`},
+          {topic:`Loki for logs`, detail:`Query structured logs.`},
+          {topic:`Tempo for traces`, detail:`Follow a request across services.`},
+          {topic:`Correlation`, detail:`Jump from a metric spike to a trace to its logs.`}
+        ]},
+        {topic:`Methods & SLOs`, resource:`Google SRE Book & SRE Workbook (free online)`, detail:`The thinking behind reliability work.`, children:[
+          {topic:`RED & USE methods`, detail:`For services and for resources.`},
+          {topic:`SLIs, SLOs & error budgets`, detail:`And how error budgets drive decisions.`},
+          {topic:`Multi-window burn-rate alerts`, detail:`Fast and slow burn detection.`}
+        ]},
+        {topic:`Incident practice`, detail:`How real teams handle outages.`, children:[
+          {topic:`Incident roles`, detail:`Commander, communications, operations.`},
+          {topic:`Blameless postmortems`, detail:`Timeline, root cause, action items.`}
+        ]},
+        {topic:`Resilience tools (use in-stage)`, detail:`Tools you use, not skills to list on a résumé.`, children:[
+          {topic:`k6 load testing`, detail:`Find the breaking point of the reference app.`},
+          {topic:`Velero backup & restore`, detail:`Back up and restore a whole namespace.`}
+        ]},
+        {topic:`Project: game days`, detail:`Practice failure before it's real.`, children:[
+          {topic:`Full observability for the reference app`, detail:`SLOs, burn-rate alerts, correlated metrics, logs and traces.`},
+          {topic:`Three game days with postmortems`, detail:`Node loss, bad deploy, database failover.`},
+          {topic:`Full cluster restore`, detail:`From backup, timed.`}
+        ]},
+        {topic:`External checkpoint: stranger test`, detail:`Someone else breaks your running system with faults you don't know about; you fix it live while they watch.`},
+        {topic:`External checkpoint: AI review test`, detail:`A peer seeds subtle flaws into five AI-generated changes (for example an over-broad IAM policy, a missing resource limit, a non-idempotent script). Catch at least four.`},
+        {topic:`Apply broadly`, detail:`Junior DevOps, Cloud, SRE and Platform roles (around month 14–15).`},
+        BREAK_FIX
+      ]
+    },
+    { num:8, title:`GitOps & Kubernetes Security`, weeks:`Weeks 64–70`, category:`Platform Engineering`, hoursLabel:`125`, hoursMid:125,
+      why:`Git as the single source of truth is how modern platform teams run clusters, and DevSecOps depth on top of real Kubernetes skill is one of the scarcest, best-paid combinations. Phase B starts here: ideally alongside a job.`,
+      checkpoint:`Explain the full path from git push to running pod without hand-waving, and show a canary automatically rolling back on SLO burn.`,
+      items:[
+        {topic:`Argo CD`, resource:`ArgoCD In One Shot | Full CI/CD Pipeline — TrainWithShubham`, detail:`A git push should be the only thing that changes what's running.`, children:[
+          {topic:`Install & app-of-apps`, detail:`Bootstrap the cluster from Git.`},
+          {topic:`ApplicationSets & multiple environments`, detail:`Dev and prod from one repo structure.`}
+        ]},
+        {topic:`Argo Rollouts`, detail:`Real progressive delivery with traffic splitting.`, children:[
+          {topic:`Canary with metric analysis`, detail:`Promote only if Prometheus metrics stay healthy.`},
+          {topic:`Automatic rollback on SLO burn`, detail:`Ship a bad version on purpose and watch it roll back.`}
+        ]},
+        {topic:`Policy-as-code with Kyverno`, detail:`Admission control for your cluster.`, children:[
+          {topic:`Require resource limits`, detail:`Block Deployments without them.`},
+          {topic:`Only signed images`, detail:`Verify your cosign signatures from Stage 4.`},
+          {topic:`Test enforcement`, detail:`Try to deploy violations on purpose.`}
+        ]},
+        {topic:`Secrets & certificates`, detail:`No plaintext secrets in Git or manifests.`, children:[
+          {topic:`External Secrets Operator`, detail:`Sync from AWS Secrets Manager.`},
+          {topic:`cert-manager`, detail:`Automatic TLS certificates.`}
+        ]},
+        {topic:`Workload security`, detail:`Harden what runs in the cluster.`, children:[
+          {topic:`Pod Security Standards`, detail:`Enforce the restricted profile where possible.`},
+          {topic:`EKS Pod Identity`, detail:`Give pods AWS access without static keys.`}
+        ]},
+        {topic:`Project: GitOps-managed reference app`, detail:`Policy-enforced, secret-store-backed, progressively delivered.`},
+        BREAK_FIX,
+        AI_PRACTICE(`one Kyverno policy`)
+      ]
+    },
+    { num:9, title:`Platform Engineering & Operators`, weeks:`Weeks 71–79`, category:`Platform Engineering`, hoursLabel:`160`, hoursMid:160,
+      why:`Platform engineering means building paved roads that other developers use. Engineers who can write operators in Go sit near the top of the market because few can do it well.`,
+      checkpoint:`A new service goes from template to production, with pipeline, dashboard and policies wired automatically, without the developer touching kubectl.`,
+      items:[
+        {topic:`Go for controllers`, resource:`Learn Go with Tests — Chris James (free) · Golang Tutorial for Beginners | Full Go Course — TechWorld with Nana`, detail:`Just enough Go to write and read controllers.`, children:[
+          {topic:`Types, structs & interfaces`, detail:`Go's approach to polymorphism.`},
+          {topic:`Error handling idioms`, detail:`No exceptions; errors are values.`},
+          {topic:`Goroutines & channels basics`, detail:`Enough to understand controller code.`}
+        ]},
+        {topic:`Custom Kubernetes operator`, resource:`Build Your Own Kubernetes Operators with Go and Kubebuilder – Full Course — freeCodeCamp.org · The Kubebuilder Book`, detail:`Design your own CRD, not the tutorial's.`, children:[
+          {topic:`Design your CRD`, detail:`Suggestion: a ScheduledBackup CRD that creates CronJobs to back up a resource.`},
+          {topic:`Implement the reconcile loop`, detail:`Idempotent, handles deletion with finalizers.`},
+          {topic:`Test against a live cluster`, detail:`Create, change and delete your resource and watch it react.`}
+        ]},
+        {topic:`Platform as a product`, detail:`The platform's customers are developers.`, children:[
+          {topic:`Golden path template`, detail:`New repo with pipeline, Helm chart, Argo CD app, dashboard and policies.`},
+          {topic:`Self-service`, detail:`Developers get what they need without tickets.`},
+          {topic:`Developer documentation`, detail:`Short, task-based docs for your platform.`}
+        ]},
+        {topic:`FinOps`, detail:`One real finding, not a hypothetical one.`, children:[
+          {topic:`Cost allocation`, detail:`By tag and by namespace.`},
+          {topic:`Kubecost or OpenCost`, detail:`See cost per workload.`},
+          {topic:`One real saving`, detail:`For example, a rightsized node pool.`}
+        ]},
+        {topic:`DORA metrics`, detail:`Deployment frequency, lead time, change failure rate, time to restore, from your own history.`},
+        {topic:`Backstage (optional)`, detail:`Only if a target employer uses it. The catalog-plus-templates concept matters more than the tool.`},
+        {topic:`Project: paved road`, detail:`Template plus your operator plus one real cost saving plus your DORA numbers.`},
+        {topic:`Real-users requirement`, detail:`If you're not employed in infrastructure by month 15: run infrastructure for real users (a college club, nonprofit, small business, or OSS project) with a written SLO, a runbook, alerts to your phone, and at least 3 months of operation.`},
+        BREAK_FIX,
+        AI_PRACTICE(`part of your operator's code`)
+      ]
+    },
+    { num:10, title:`GPU & Inference Infrastructure`, weeks:`Weeks 80–90`, category:`AI Infrastructure`, hoursLabel:`200`, hoursMid:200,
+      why:`Two-thirds of organizations hosting generative AI use Kubernetes for some or all inference. The AI infrastructure job is GPU scheduling, inference serving and cost per token, and vLLM is the most widely adopted open-source inference engine.`,
+      checkpoint:`Size a deployment on paper for a given model and traffic target, deploy it, measure it, and explain the gap between estimate and reality.`,
+      items:[
+        {topic:`GPU & LLM serving fundamentals`, detail:`The math that decides everything else.`, children:[
+          {topic:`VRAM math`, detail:`Model weights plus KV cache for a given context length and batch size.`},
+          {topic:`Why decode is memory-bandwidth-bound`, detail:`And why batching helps throughput.`},
+          {topic:`Batching`, detail:`Continuous batching and its latency trade-off.`},
+          {topic:`Quantization trade-offs`, detail:`Memory, speed and quality.`}
+        ]},
+        {topic:`GPUs on Kubernetes`, detail:`Making GPUs schedulable and observable.`, children:[
+          {topic:`GPU Operator & device plugin`, detail:`How pods request nvidia.com/gpu.`},
+          {topic:`Time-slicing vs MIG`, detail:`Sharing GPUs and the isolation trade-off.`},
+          {topic:`DCGM exporter`, detail:`GPU utilization, memory and health in Grafana.`},
+          {topic:`Kueue & DRA (awareness only)`, detail:`Read the docs and run one demo. Know when batch queueing and flexible GPU allocation are needed.`}
+        ]},
+        {topic:`Model serving`, resource:`vLLM official documentation · KServe documentation`, detail:`Serve models like any production service.`, children:[
+          {topic:`vLLM in depth`, detail:`Configuration, memory settings, metrics endpoint.`},
+          {topic:`KServe`, detail:`Serving layer on Kubernetes.`},
+          {topic:`Model weight loading & caching`, detail:`Why cold starts are slow and how to speed them up.`}
+        ]},
+        {topic:`Inference SLOs & scaling`, detail:`Measure what users actually feel.`, children:[
+          {topic:`Inference metrics`, detail:`Time-to-first-token, inter-token latency, tokens/sec, queue depth, KV-cache use.`},
+          {topic:`KEDA on queue depth`, detail:`Scale replicas on waiting requests, not CPU.`},
+          {topic:`Karpenter GPU spot nodes`, detail:`Including handling spot interruptions.`}
+        ]},
+        {topic:`CPU-first preparation`, detail:`Build every manifest, script and dashboard with a tiny model on CPU first, so paid GPU hours are spent only on measurement.`},
+        {topic:`GPU sessions (40 hours)`, detail:`Each session has one measurement goal.`, children:[
+          {topic:`Session 1 (4h): GPU Operator + DCGM`, detail:`Confirm GPU metrics flow into Grafana.`},
+          {topic:`Session 2 (6h): vLLM baseline`, detail:`Record baseline latency and throughput.`},
+          {topic:`Session 3 (6h): load-test curves`, detail:`Latency vs throughput at several concurrency levels.`},
+          {topic:`Session 4 (6h): quantization comparison`, detail:`Full precision vs quantized: memory, speed, quality.`},
+          {topic:`Session 5 (8h): autoscaling + spot`, detail:`KEDA plus Karpenter; simulate a spot interruption.`},
+          {topic:`Session 6 (4h): time-slicing`, detail:`Two models on one GPU; measure interference.`},
+          {topic:`Session 7 (6h): final flagship run`, detail:`Recorded demo and final numbers.`}
+        ]},
+        {topic:`Cost controls`, detail:`AWS budget alarm, auto-shutdown timer on every GPU node, and terraform destroy at the end of every session. Record your real GPU hours honestly in the README.`},
+        AI_PRACTICE(`one vLLM deployment manifest`)
+      ]
+    },
+    { num:11, title:`LLM Platform`, weeks:`Weeks 91–98`, category:`AI Infrastructure`, hoursLabel:`140`, hoursMid:140,
+      why:`Teams need a governed front door to models: routing, fallback, quotas, cost accounting and quality gates. Agents with infrastructure access need security engineering, not just prompts.`,
+      checkpoint:`A lower-quality model update is blocked automatically, and a prompt-injection attempt against your agent fails, and you can show why.`,
+      items:[
+        {topic:`Model gateway`, detail:`LiteLLM, Envoy AI Gateway or similar.`, children:[
+          {topic:`Routing & fallback`, detail:`Self-hosted model first, hosted API as fallback.`},
+          {topic:`Rate limits & quotas`, detail:`Per team or per key.`},
+          {topic:`Token & cost accounting`, detail:`Cost per million tokens, per team.`},
+          {topic:`Gateway API Inference Extension (concepts)`, detail:`Model-aware, KV-cache-aware routing on Kubernetes.`}
+        ]},
+        {topic:`RAG infrastructure`, detail:`Reuse your Postgres skills.`, children:[
+          {topic:`Embeddings service`, detail:`Deployed and scaled like any service.`},
+          {topic:`pgvector`, detail:`Vector search inside Postgres.`}
+        ]},
+        {topic:`Evaluation as a deploy gate`, detail:`What separates a demo from something you can defend.`, children:[
+          {topic:`Golden dataset`, detail:`20–50 examples with expected outputs.`},
+          {topic:`Eval in CI & rollout analysis`, detail:`A quality drop blocks promotion automatically (Argo Rollouts analysis).`}
+        ]},
+        {topic:`LLM observability`, detail:`Quality is a production signal, like error rate.`, children:[
+          {topic:`Tracing with OpenTelemetry GenAI conventions`, detail:`Prompts, tokens, latency per request.`},
+          {topic:`Quality + cost dashboard`, detail:`Eval scores next to latency, GPU use and cost.`}
+        ]},
+        {topic:`Operating agents safely`, detail:`Your value is running agents securely, not designing agent personalities.`, children:[
+          {topic:`Least-privilege MCP server`, detail:`Read-only tools by default, scoped credentials.`},
+          {topic:`Human approval & PR-only changes`, detail:`The agent proposes; it never applies.`},
+          {topic:`Audit logs`, detail:`Every tool call recorded.`},
+          {topic:`Prompt-injection threat model & test`, detail:`For example, a malicious resource tag trying to hijack the agent.`}
+        ]},
+        {topic:`MLflow (only for MLOps-titled roles)`, detail:`Model registry and experiment tracking, if your target postings ask for it.`},
+        {topic:`Project: assemble Flagship #2`, detail:`See the flagship projects in Stage 12.`},
+        {topic:`External checkpoint: architecture review`, detail:`A senior engineer reviews your flagships, plus a system-design mock interview.`},
+        AI_PRACTICE(`one gateway configuration`)
+      ]
+    },
+    { num:12, title:`Capstone & Career`, weeks:`Weeks 99–103`, category:`Career`, hoursLabel:`90`, hoursMid:90,
+      why:`Projects only count if you can defend them from a blank whiteboard. This stage converts capability into offers.`,
+      checkpoint:`Whiteboard either flagship from scratch and answer "what breaks first at 10x traffic?" with numbers.`,
+      items:[
+        {topic:`Flagship #1: paved-road platform`, detail:`Terraform-built EKS, signed keyless pipeline, GitOps with SLO-gated canaries, full observability, policies and secrets, custom operator, service template, game-day postmortems, restore drill, DORA and cost findings.`, children:[
+          {topic:`README with diagram, numbers & failure log`, detail:`Plus a "what I'd change" section.`},
+          {topic:`Recorded demo`, detail:`5–10 minutes, as if presenting to a hiring manager.`}
+        ]},
+        {topic:`Flagship #2: LLM inference platform`, detail:`vLLM on GPU nodes, DCGM and inference-SLO dashboards, KEDA autoscaling with measured curves, model gateway with fallback and cost per token, pgvector RAG, eval-gated promotion, hardened ops agent, sizing estimate vs reality.`, children:[
+          {topic:`README with diagram, numbers & failure log`, detail:`Including your honest GPU hours.`},
+          {topic:`Recorded demo`, detail:`Show a bad model version being blocked.`}
+        ]},
+        {topic:`Open source`, detail:`At least one merged PR in a CNCF or AI-infrastructure project (ideally several by now).`},
+        {topic:`Interview preparation`, detail:`Built around your own systems.`, children:[
+          {topic:`System design`, detail:`Whiteboard your flagships as design prompts; practice trade-off questions.`},
+          {topic:`Behavioral stories`, detail:`From your postmortems, break-fix logs and AI defect log.`},
+          {topic:`Coding rounds`, detail:`Keep the continuous coding track going.`}
+        ]},
+        {topic:`Application funnel tracking`, detail:`Track applications, callbacks, screens and finals, and use the failure branches below to diagnose where you're stuck.`}
+      ]
+    }
+  ];
+
+  const specialization = [
+    {topic:`Crossplane`, detail:`Kubernetes-native infrastructure provisioning. Learn if a target platform team uses it.`},
+    {topic:`HashiCorp Vault`, detail:`Advanced secrets management for enterprises that use it.`},
+    {topic:`Ray / KubeRay`, detail:`Distributed training and serving for ML-heavy teams.`},
+    {topic:`llm-d & disaggregated serving`, detail:`Frontier inference architecture. Needs multi-GPU hardware with fast networking, so understand the design before trying to practice it.`},
+    {topic:`Service mesh`, detail:`Istio or Linkerd, for teams that need mTLS and traffic control across many services.`},
+    {topic:`Slurm & HPC`, detail:`For on-prem GPU training clusters.`},
+    {topic:`Kafka`, detail:`For data-heavy roles and streaming pipelines.`},
+    {topic:`Azure or GCP depth`, detail:`40–60 hours: rebuild your Stage 5 Terraform environment on the new cloud using the translation guide.`},
+    {topic:`CKS certification`, detail:`Kubernetes security specialization, after CKA.`}
+  ];
+
+
+  /* Same id order as the previous version, so saved progress carries over */
+  let uid = 0;
+  function reg(arr){
+    return arr.map(it=>{
+      const n = { id:"i"+(uid++), topic:it.topic, detail:it.detail||"", resource:it.resource||null };
+      if(it.children) n.children = reg(it.children);
+      return n;
+    });
+  }
+  stages.forEach(s=>{ s.items = reg(s.items); });
+
+  function leaves(s){
+    const out = [];
+    const walk = a=>a.forEach(n=> n.children ? walk(n.children) : out.push(n));
+    walk(s.items);
+    return out;
+  }
+
+  const STORE_KEY = "roadmap_tracker_state_v4";
+  let checked = {};
+  let hrsPerWeek = 18;
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){ const d = JSON.parse(raw); checked = d.checked || {}; hrsPerWeek = d.hrsPerWeek || 18; }
+  }catch(e){}
+  function save(){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify({checked, hrsPerWeek})); }catch(e){}
+  }
+
+  function itemHtml(n){
+    const res = n.resource ? `<span class="resource">Resource: ${n.resource}</span>` : "";
+    const det = n.detail ? `<span class="detail">${n.detail}</span>` : "";
+    const on = !!checked[n.id];
+    return `<div class="item ${on?"done":""}" data-row="${n.id}">
+      <input type="checkbox" id="cb-${n.id}" data-id="${n.id}" ${on?"checked":""}>
+      <label for="cb-${n.id}"><span class="topic">${n.topic}</span>${det}${res}</label>
+    </div>`;
+  }
+  function nodeHtml(n){
+    if(!n.children) return itemHtml(n);
+    const res = n.resource ? `<span class="resource">Resource: ${n.resource}</span>` : "";
+    return `<div class="group">
+      <div class="group-title">${n.topic}</div>
+      ${n.detail ? `<div class="group-note">${n.detail}</div>` : ""}${res}
+      ${n.children.map(itemHtml).join("")}
+    </div>`;
+  }
+
+  function render(){
+    const container = document.getElementById("stages");
+    let firstOpen = null;
+    for(const s of stages){
+      const l = leaves(s);
+      if(l.some(x=>!checked[x.id])){ firstOpen = s.num; break; }
+    }
+    container.innerHTML = stages.map(s=>{
+      const phase = s.num===1 ? `<div class="phase">Phase A: foundations to employable</div>`
+                  : s.num===8 ? `<div class="phase">Phase B: specialization</div>` : "";
+      return phase + `<details class="stage" id="stage-${s.num}" ${s.num===firstOpen?"open":""}>
+        <summary>
+          <span class="s-num">${s.num}</span>
+          <span class="s-title">${s.title}</span>
+          <span class="s-meta">${s.weeks}, ${s.hoursLabel} hrs</span>
+          <span class="s-count" data-count="${s.num}"></span>
+        </summary>
+        <div class="stage-body">
+          <p class="why">${s.why}</p>
+          ${s.items.map(nodeHtml).join("")}
+          <div class="checkpoint"><b>Checkpoint</b>${s.checkpoint}</div>
+        </div>
+      </details>`;
+    }).join("");
+
+    document.getElementById("specList").innerHTML = specialization
+      .map(it=>`<li><b>${it.topic}:</b> <span class="detail">${it.detail}</span></li>`).join("");
+  }
+
+  function update(){
+    let done=0, total=0, hDone=0, hTotal=0;
+    stages.forEach(s=>{
+      const l = leaves(s);
+      const d = l.filter(x=>checked[x.id]).length;
+      done += d; total += l.length;
+      hTotal += s.hoursMid;
+      hDone += l.length ? s.hoursMid * d / l.length : 0;
+      const el = document.querySelector(`[data-count="${s.num}"]`);
+      el.textContent = `${d}/${l.length}`;
+      document.getElementById("stage-"+s.num).classList.toggle("complete", d===l.length);
+    });
+    const pct = total ? Math.round(done/total*100) : 0;
+    document.getElementById("pct").textContent = pct + "%";
+    document.getElementById("done").textContent = done;
+    document.getElementById("total").textContent = total;
+    document.getElementById("hDone").textContent = Math.round(hDone).toLocaleString();
+    document.getElementById("hTotal").textContent = hTotal.toLocaleString();
+    document.getElementById("barFill").style.width = pct + "%";
+    const left = Math.max(hTotal - hDone, 0);
+    const weeks = hrsPerWeek > 0 ? left / hrsPerWeek : 0;
+    document.getElementById("eta").textContent = left < 1 ? "All hours complete."
+      : `About ${Math.round(weeks)} weeks (${(weeks/4.345).toFixed(1)} months) left`;
+  }
+
+  render();
+  update();
+
+  document.getElementById("stages").addEventListener("change", e=>{
+    const id = e.target.dataset.id;
+    if(!id) return;
+    if(e.target.checked) checked[id] = true; else delete checked[id];
+    e.target.closest(".item").classList.toggle("done", e.target.checked);
+    save(); update();
+  });
+
+  const hrsInput = document.getElementById("hrs");
+  hrsInput.value = hrsPerWeek;
+  hrsInput.addEventListener("input", ()=>{
+    const v = parseInt(hrsInput.value, 10);
+    if(v > 0){ hrsPerWeek = v; save(); update(); }
+  });
+
+  document.getElementById("reset").addEventListener("click", ()=>{
+    if(!confirm("Clear all checked tasks?")) return;
+    checked = {}; save(); render(); update();
+  });
+})();
+</script>
+</body>
+</html>
